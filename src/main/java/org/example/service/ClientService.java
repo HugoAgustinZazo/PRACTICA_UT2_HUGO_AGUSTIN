@@ -1,8 +1,11 @@
 package org.example.service;
 
 import org.example.dao.ConnectionManager;
+import org.example.dao.IClientDao;
 import org.example.dao.IProductDao;
+import org.example.dao.impl.ClientDaoJdbc;
 import org.example.dao.impl.ProductDaoJdbc;
+import org.example.model.Client;
 import org.example.model.Product;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,21 +14,20 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
+public class ClientService {
+    private static final Logger logger = LoggerFactory.getLogger(ClientService.class);
+    private IClientDao iClientDao;
 
-public class ProductService {
-    private static final Logger logger = LoggerFactory.getLogger(ProductService.class);
-    private IProductDao productDao;
 
-    public Product newProduct(Product toCreate){
-        logger.info("Inserting new Product: "+toCreate);
+    public Client newCLient(Client client){
+        logger.info("Inserting new CLient: "+client);
 
         ConnectionManager instance=ConnectionManager.getInstance();
         try (Connection conn= instance.getConnection()){
 
-            productDao=new ProductDaoJdbc(conn);
-            productDao.insert(toCreate);
-            logger.info("Product succesfully created. ProductID: "+toCreate.getId());
-
+            iClientDao=new ClientDaoJdbc(conn);
+            iClientDao.insert(client);
+            logger.info("Product succesfully created. CLientID: "+client.getId());
         } catch (SQLException e) {
             logger.error("There has been an error while operating with the DB",e);
             throw new RuntimeException(e);
@@ -33,36 +35,33 @@ public class ProductService {
             logger.error("General ERROR");
         }
 
-        return toCreate;
+        return client;
     }
-    public Product updateProduct(Product newInfo){
-        logger.info("Updating new Product: "+newInfo);
+    public Client updateClient(Client newInfo){
+        logger.info("Updating new Client: "+newInfo);
 
         ConnectionManager instance=ConnectionManager.getInstance();
         try (Connection conn= instance.getConnection()){
 
-            productDao=new ProductDaoJdbc(conn);
-            productDao.update(newInfo);
+            iClientDao=new ClientDaoJdbc(conn);
+            iClientDao.update(newInfo);
             logger.info("Product succesfully update. ProductID: "+newInfo.getId());
-
-
         } catch (SQLException e) {
             logger.error("There has been an error while operating with the DB",e);
             throw new RuntimeException(e);
         }catch (Exception e){
             logger.error("General ERROR");
         }
-
         return newInfo;
     }
-    public boolean deleteProduct(Product prod){
-        logger.info("Deleting Product: "+prod);
+    public boolean deleteClient(Client client){
+        logger.info("Deleting Client: "+client);
 
         ConnectionManager instance=ConnectionManager.getInstance();
         try (Connection conn= instance.getConnection()){
 
-            productDao=new ProductDaoJdbc(conn);
-            logger.info("Product succesfully delete. ProductID: "+prod.getId());
+            iClientDao = new ClientDaoJdbc(conn);
+            logger.info("Product succesfully delete. CLientID: "+client.getId());
         } catch (SQLException e) {
             logger.error("There has been an error while operating with the DB",e);
             throw new RuntimeException(e);
@@ -70,54 +69,35 @@ public class ProductService {
             logger.error("General ERROR");
         }
 
-        return productDao.delete(prod.getId());
+        return iClientDao.delete(client.getId());
     }
-    public Product getById(int productId) {
-        Product producto = null;
-
-        logger.info("Product: "+productId);
-
+    public List<Client> getAllClients() {
         ConnectionManager instance=ConnectionManager.getInstance();
         try (Connection conn= instance.getConnection()){
-
-            productDao=new ProductDaoJdbc(conn);
-            logger.info("Product succesfully getting. ProductID: "+productId);
-
-
+            iClientDao=new ClientDaoJdbc(conn);
         } catch (SQLException e) {
             logger.error("There has been an error while operating with the DB",e);
             throw new RuntimeException(e);
         }catch (Exception e){
             logger.error("General ERROR");
         }
-        return productDao.getById(productId);
+        return iClientDao.getAll();
     }
 
-    public List<Product> getAllProducts() {
+    public Client getCLientByEmail(String email) {
         ConnectionManager instance=ConnectionManager.getInstance();
         try (Connection conn= instance.getConnection()){
-            productDao=new ProductDaoJdbc(conn);
+            iClientDao=new ClientDaoJdbc(conn);
         } catch (SQLException e) {
             logger.error("There has been an error while operating with the DB",e);
             throw new RuntimeException(e);
         }catch (Exception e){
             logger.error("General ERROR");
         }
-        return productDao.getALl();
+        return iClientDao.getByemail(email);
     }
 
-    public List<Product> getProductsByNameAlike(String name) {
-        ConnectionManager instance=ConnectionManager.getInstance();
-        try (Connection conn= instance.getConnection()){
-            productDao=new ProductDaoJdbc(conn);
-        } catch (SQLException e) {
-            logger.error("There has been an error while operating with the DB",e);
-            throw new RuntimeException(e);
-        }catch (Exception e){
-            logger.error("General ERROR");
-        }
-        return productDao.getALlByNameAlike(name);
-    }
+
 
 
 }
