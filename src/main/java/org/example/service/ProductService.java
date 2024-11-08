@@ -62,6 +62,9 @@ public class ProductService {
         try (Connection conn= instance.getConnection()){
 
             productDao=new ProductDaoJdbc(conn);
+            if(productDao.delete(prod.getId())){
+                return true;
+            }
             logger.info("Product succesfully delete. ProductID: "+prod.getId());
         } catch (SQLException e) {
             logger.error("There has been an error while operating with the DB",e);
@@ -70,7 +73,7 @@ public class ProductService {
             logger.error("General ERROR");
         }
 
-        return productDao.delete(prod.getId());
+        return false;
     }
     public Product getById(int productId) {
         Product producto = null;
@@ -81,6 +84,7 @@ public class ProductService {
         try (Connection conn= instance.getConnection()){
 
             productDao=new ProductDaoJdbc(conn);
+            producto = productDao.getById(productId);
             logger.info("Product succesfully getting. ProductID: "+productId);
 
 
@@ -90,7 +94,7 @@ public class ProductService {
         }catch (Exception e){
             logger.error("General ERROR");
         }
-        return productDao.getById(productId);
+        return producto;
     }
 
     public List<Product> getAllProducts() {

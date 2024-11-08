@@ -17,6 +17,10 @@ public class Sales {
         this.dateofsale = dateofsale;
     }
 
+    public Sales() {
+
+    }
+
     public int getSalesid() {
         return salesid;
     }

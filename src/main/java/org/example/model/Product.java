@@ -24,6 +24,10 @@ public class Product {
         this.updateDate = updateDate;
     }
 
+    public Product() {
+
+    }
+
     public int getId() {
         return id;
     }

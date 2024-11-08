@@ -4,6 +4,7 @@ import org.example.dao.IClientDao;
 import org.example.model.Client;
 
 import java.sql.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,8 +24,9 @@ public class ClientDaoJdbc implements IClientDao {
             stm.setString(3, tocreate.getEmail());
             stm.setInt(4, tocreate.getPurchase());
             stm.setTimestamp(5, Timestamp.valueOf(tocreate.getCreateDate()));
-            stm.setTimestamp(6, Timestamp.valueOf(tocreate.getUpdateDate()));
+            stm.setTimestamp(6, Timestamp.valueOf(LocalDateTime.now()));
             stm.executeUpdate();
+
             ResultSet rs = stm.getGeneratedKeys();
             if (rs.next()) {
                 return rs.getInt(1);

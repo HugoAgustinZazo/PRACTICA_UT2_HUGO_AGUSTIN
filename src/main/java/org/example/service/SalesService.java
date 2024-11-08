@@ -14,6 +14,8 @@ import org.slf4j.LoggerFactory;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class SalesService {
     private static final Logger logger = LoggerFactory.getLogger(SalesService.class);
@@ -28,8 +30,12 @@ public class SalesService {
         try (Connection conn= instance.getConnection()){
 
             iSalesDao = new SalesDaoJdbc(conn);
-            //Sales sale = new Sales(product,client,quantity);
-            //iSalesDao.insert(sale);
+            Sales sale = new Sales();
+            sale.setCustomer(client);
+            sale.setProduct(product);
+            sale.setQuantity(quantity);
+            sale.setDateofsale(LocalDateTime.now());
+            iSalesDao.insert(sale);
             logger.info("Product succesfully created. ProductID: ");
 
         } catch (SQLException e) {
@@ -40,6 +46,31 @@ public class SalesService {
         }
 
     }
+    public Product getMostPurchasedProduct() throws SQLException {
 
+        ConnectionManager instance=ConnectionManager.getInstance();
+        try (Connection conn= instance.getConnection()){
+            iSalesDao = new SalesDaoJdbc(conn);
+        } catch (SQLException e) {
+            logger.error("There has been an error while operating with the DB",e);
+            throw new RuntimeException(e);
+        }catch (Exception e){
+            logger.error("General ERROR");
+        }
+        return iSalesDao.getMostPurchasedProduct();
+    }
+
+    public Client getTopPurchasingClient() {
+        ConnectionManager instance=ConnectionManager.getInstance();
+        try (Connection conn= instance.getConnection()){
+            iSalesDao = new SalesDaoJdbc(conn);
+        } catch (SQLException e) {
+            logger.error("There has been an error while operating with the DB",e);
+            throw new RuntimeException(e);
+        }catch (Exception e){
+            logger.error("General ERROR");
+        }
+        return iSalesDao.getTopPurchasingClient();
+    }
 
 }

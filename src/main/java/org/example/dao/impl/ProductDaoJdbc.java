@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.sql.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,6 +29,7 @@ public class ProductDaoJdbc implements IProductDao{
             stm.setBoolean(5,toCreate.isAvailable());
             stm.setTimestamp(6, Timestamp.valueOf(toCreate.getCreateDate()));
             stm.setTimestamp(7, Timestamp.valueOf(toCreate.getUpdateDate()));
+            stm.executeUpdate();
             ResultSet rs = stm.getGeneratedKeys();
             while(rs.next()){
                 return rs.getInt(1);
@@ -50,7 +52,7 @@ public class ProductDaoJdbc implements IProductDao{
             stm.setInt(3,toModify.getStock());
             stm.setDouble(4,toModify.getPrice());
             stm.setBoolean(5,toModify.isAvailable());
-            stm.setTimestamp(6, Timestamp.valueOf(toModify.getUpdateDate()));
+            stm.setTimestamp(6, Timestamp.valueOf(LocalDateTime.now()));
             stm.setInt(7,toModify.getId());
             return stm.executeUpdate() > 0;
 
@@ -63,7 +65,7 @@ public class ProductDaoJdbc implements IProductDao{
 
     @Override
     public boolean delete(int idToDelete) {
-        String sql = "DELETE FORM PRODUCT WHERE ID =?";
+        String sql = "DELETE FROM PRODUCT WHERE ID =?";
         try(PreparedStatement stm = connection.prepareStatement(sql)){
             stm.setInt(1,idToDelete);
             return stm.executeUpdate() > 0;

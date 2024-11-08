@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ClientService {
@@ -62,6 +63,9 @@ public class ClientService {
 
             iClientDao = new ClientDaoJdbc(conn);
             logger.info("Product succesfully delete. CLientID: "+client.getId());
+             if (iClientDao.delete(client.getId())){
+                 return true;
+             }
         } catch (SQLException e) {
             logger.error("There has been an error while operating with the DB",e);
             throw new RuntimeException(e);
@@ -69,19 +73,22 @@ public class ClientService {
             logger.error("General ERROR");
         }
 
-        return iClientDao.delete(client.getId());
+        return false;
     }
     public List<Client> getAllClients() {
+
+        List<Client> clientes = new ArrayList<>();
         ConnectionManager instance=ConnectionManager.getInstance();
         try (Connection conn= instance.getConnection()){
             iClientDao=new ClientDaoJdbc(conn);
+            clientes = iClientDao.getAll();
         } catch (SQLException e) {
             logger.error("There has been an error while operating with the DB",e);
             throw new RuntimeException(e);
         }catch (Exception e){
             logger.error("General ERROR");
         }
-        return iClientDao.getAll();
+        return clientes;
     }
 
     public Client getCLientByEmail(String email) {
@@ -95,6 +102,18 @@ public class ClientService {
             logger.error("General ERROR");
         }
         return iClientDao.getByemail(email);
+    }
+    public Client getById(int idClient) {
+        ConnectionManager instance=ConnectionManager.getInstance();
+        try (Connection conn= instance.getConnection()){
+            iClientDao=new ClientDaoJdbc(conn);
+        } catch (SQLException e) {
+            logger.error("There has been an error while operating with the DB",e);
+            throw new RuntimeException(e);
+        }catch (Exception e){
+            logger.error("General ERROR");
+        }
+        return iClientDao.getById(idClient);
     }
 
 

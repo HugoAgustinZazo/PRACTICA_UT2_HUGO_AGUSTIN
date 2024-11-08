@@ -22,6 +22,10 @@ public class Client {
         this.updateDate = updateDate;
     }
 
+    public Client() {
+
+    }
+
     public int getId() {
         return id;
     }
