@@ -28,8 +28,8 @@ public class SalesService {
         try (Connection conn= instance.getConnection()){
 
             iSalesDao = new SalesDaoJdbc(conn);
-            Sales sale = new Sales(product,client,quantity);
-            iSalesDao.insert(sale);
+            //Sales sale = new Sales(product,client,quantity);
+            //iSalesDao.insert(sale);
             logger.info("Product succesfully created. ProductID: ");
 
         } catch (SQLException e) {
