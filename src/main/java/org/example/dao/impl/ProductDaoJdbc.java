@@ -1,7 +1,11 @@
 package org.example.dao.impl;
 
+import org.example.dao.IClientDao;
 import org.example.dao.IProductDao;
+import org.example.exceptions.CannotDeleteException;
+import org.example.model.Client;
 import org.example.model.Product;
+import org.example.model.Sales;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -40,7 +44,7 @@ public class ProductDaoJdbc implements IProductDao{
         }
 
 
-        return 0;
+        return -1;
     }
 
     @Override
@@ -64,15 +68,32 @@ public class ProductDaoJdbc implements IProductDao{
     }
 
     @Override
-    public boolean delete(int idToDelete) {
+    public boolean delete(int idToDelete)throws CannotDeleteException, SQLException {
+        List<Sales> ventas = new ArrayList<>();
+        IClientDao iClientDao = new ClientDaoJdbc(connection);
+        String verificarCliente = "SELECT * FROM SALES WHERE PRODUCT_ID=?";
         String sql = "DELETE FROM PRODUCT WHERE ID =?";
-        try(PreparedStatement stm = connection.prepareStatement(sql)){
-            stm.setInt(1,idToDelete);
+            PreparedStatement stm1 = connection.prepareStatement(verificarCliente);
+            stm1.setInt(1,idToDelete);
+            ResultSet rs = stm1.executeQuery();
+            while(rs.next()){
+
+                int id_venta = rs.getInt("SALES_ID");
+                Product producto = getById(rs.getInt("PRODUCT_ID"));
+                Client cliente = iClientDao.getById(rs.getInt("CLIENT_ID"));
+                int quantity = rs.getInt("QUANTITY");
+                LocalDateTime fechaventa = rs.getTimestamp("DATE_OF_SALE").toLocalDateTime();
+
+                Sales venta = new Sales(id_venta,cliente,producto,quantity,fechaventa);
+                ventas.add(venta);
+            }
+            if(ventas!=null){
+                throw new CannotDeleteException("No se puede borrar el producto ya que esta registrado en las ventas");
+            }else {
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setInt(1, idToDelete);
             return stm.executeUpdate() > 0;
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
-        return false;
     }
 
     @Override

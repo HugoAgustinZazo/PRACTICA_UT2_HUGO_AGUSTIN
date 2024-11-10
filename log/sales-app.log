@@ -1,0 +1,59 @@
+2024-11-10 20:06:08 [main] INFO  org.example.service.ClientService - Inserting new CLient: Client{id=0, name='jose', surname='aks', email='hola@gmail.com', purchase=0, createDate=2024-11-10T20:06:08.273015800, updateDate=2024-11-10T20:06:08.275537100}
+2024-11-10 20:06:08 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2024-11-10 20:06:08 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@15bb5034
+2024-11-10 20:06:08 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2024-11-10 20:06:08 [main] INFO  org.example.service.ClientService - Product succesfully created. CLientID: 0
+2024-11-10 21:47:10 [main] INFO  org.example.service.ClientService - Inserting new CLient: Client{id=0, name='jose', surname='david', email='david@gmail.com', purchase=0, createDate=2024-11-10T21:47:10.489194500, updateDate=2024-11-10T21:47:10.490207300}
+2024-11-10 21:47:10 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2024-11-10 21:47:10 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@15bb5034
+2024-11-10 21:47:10 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2024-11-10 21:47:10 [main] INFO  org.example.service.ClientService - Product succesfully created. CLientID: 0
+2024-11-10 21:48:26 [main] INFO  org.example.service.ProductService - Inserting new Product: Product{id=0, name='gulacsi', description='muy bueno', stock=20, price=14.88, available=false, createDate=2024-11-10T21:48:26.560427100, updateDate=2024-11-10T21:48:26.560427100}
+2024-11-10 21:48:26 [main] INFO  org.example.service.ProductService - Product succesfully created. ProductID: 0
+2024-11-10 21:49:21 [main] INFO  org.example.service.ProductService - Product: 12
+2024-11-10 21:49:21 [main] INFO  org.example.service.ProductService - Product succesfully getting. ProductID: 12
+2024-11-10 21:49:21 [main] INFO  org.example.service.SalesService - Inserting new Sale Id product: 12 ,CLientID: 4 ,Quantity: 2
+2024-11-10 21:49:21 [main] ERROR org.example.service.SalesService - Can't call commit when autocommit=true
+2024-11-10 21:49:41 [main] INFO  org.example.service.ProductService - Inserting new Product: Product{id=0, name='leche', description='blanca', stock=12, price=12.0, available=false, createDate=2024-11-10T21:49:41.230345800, updateDate=2024-11-10T21:49:41.230345800}
+2024-11-10 21:49:41 [main] INFO  org.example.service.ProductService - Product succesfully created. ProductID: 0
+2024-11-10 21:49:53 [main] INFO  org.example.service.ProductService - Product: 13
+2024-11-10 21:49:53 [main] INFO  org.example.service.ProductService - Product succesfully getting. ProductID: 13
+2024-11-10 21:50:28 [main] INFO  org.example.service.ProductService - Updating new Product: Product{id=13, name='chocolate', description='negro', stock=11, price=12.0, available=false, createDate=2024-11-10T21:49:41, updateDate=2024-11-10T21:50:28.758064900}
+2024-11-10 21:50:28 [main] INFO  org.example.service.ProductService - Product succesfully update. ProductID: 13
+2024-11-10 21:51:49 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2024-11-10 21:51:49 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@2892d68
+2024-11-10 21:51:49 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2024-11-10 21:51:50 [main] ERROR org.example.service.SalesService - PROCEDURE accesodatos.getTopPurchasingClient does not exist
+2024-11-10 21:55:56 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2024-11-10 21:55:56 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@d86a6f
+2024-11-10 21:55:56 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2024-11-10 21:55:56 [main] INFO  org.example.service.ClientService - Deleting Client: Client{id=4, name='jose', surname='aks', email='hola@gmail.com', purchase=1, createDate=2024-11-10T20:06:08, updateDate=2024-11-10T20:06:08}
+2024-11-10 21:55:57 [main] ERROR org.example.service.ClientService - You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'FROM SALES WHERE CLIENT_ID=4' at line 1
+2024-11-10 22:02:46 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2024-11-10 22:02:46 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@d86a6f
+2024-11-10 22:02:46 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2024-11-10 22:02:46 [main] INFO  org.example.service.ProductService - Product: 13
+2024-11-10 22:02:46 [main] INFO  org.example.service.ProductService - Product succesfully getting. ProductID: 13
+2024-11-10 22:02:46 [main] INFO  org.example.service.SalesService - Inserting new Sale Id product: 13 ,CLientID: 5 ,Quantity: 2
+2024-11-10 22:02:46 [main] ERROR org.example.service.SalesService - Can't call commit when autocommit=true
+2024-11-10 22:02:58 [main] ERROR org.example.service.ClientService - You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'FROM SALES WHERE CLIENT_ID=5' at line 1
+2024-11-10 22:04:36 [main] ERROR org.example.service.ClientService - You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'FROM SALES WHERE CLIENT_ID=3' at line 1
+2024-11-10 22:06:44 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2024-11-10 22:06:44 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@d86a6f
+2024-11-10 22:06:44 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2024-11-10 22:06:44 [main] ERROR org.example.service.ClientService - General ERROR
+2024-11-10 22:08:37 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2024-11-10 22:08:37 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@d86a6f
+2024-11-10 22:08:37 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2024-11-10 22:08:37 [main] INFO  org.example.service.ClientService - CLient succesfully delete. CLientID: 3
+2024-11-10 22:09:45 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2024-11-10 22:09:45 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@2892d68
+2024-11-10 22:09:45 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2024-11-10 22:09:45 [main] ERROR org.example.service.ClientService - No se puede borrar el cliente ya que esta registrado en las ventas
+2024-11-10 22:11:41 [main] INFO  org.example.service.ProductService - Product: 12
+2024-11-10 22:11:41 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2024-11-10 22:11:41 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@2ddc9a9f
+2024-11-10 22:11:41 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2024-11-10 22:11:41 [main] INFO  org.example.service.ProductService - Product succesfully getting. ProductID: 12
+2024-11-10 22:11:41 [main] INFO  org.example.service.ProductService - Deleting Product: Product{id=12, name='gulacsi', description='muy bueno', stock=18, price=14.88, available=false, createDate=2024-11-10T21:48:26, updateDate=2024-11-10T21:48:26}
+2024-11-10 22:11:41 [main] ERROR org.example.service.ProductService - No se puede borrar el producto ya que esta registrado en las ventas

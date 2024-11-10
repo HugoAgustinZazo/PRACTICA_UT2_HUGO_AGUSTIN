@@ -1,7 +1,12 @@
 package org.example.dao.impl;
 
 import org.example.dao.IClientDao;
+import org.example.dao.IProductDao;
+import org.example.exceptions.CannotDeleteException;
+import org.example.exceptions.DuplicateClientException;
 import org.example.model.Client;
+import org.example.model.Product;
+import org.example.model.Sales;
 
 import java.sql.*;
 import java.time.LocalDateTime;
@@ -16,34 +21,36 @@ public class ClientDaoJdbc implements IClientDao {
     }
 
     @Override
-    public int insert(Client tocreate) {
-        String sql = "INSERT INTO CLIENT (NAME, SURNAME, EMAIL, PURCHASES, CREATE_DATE, UPDATE_DATE) VALUES (?, ?, ?, ?, ?, ?)";
-        try (PreparedStatement stm = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-            stm.setString(1, tocreate.getName());
-            stm.setString(2, tocreate.getSurname());
-            stm.setString(3, tocreate.getEmail());
-            stm.setInt(4, tocreate.getPurchase());
-            stm.setTimestamp(5, Timestamp.valueOf(tocreate.getCreateDate()));
-            stm.setTimestamp(6, Timestamp.valueOf(LocalDateTime.now()));
-            stm.executeUpdate();
+    public int insert(Client tocreate) throws DuplicateClientException, SQLException {
+        if (getByemail(tocreate.getEmail()) != null) {
+            throw new DuplicateClientException("El cliente con el email " + tocreate.getEmail() + " ya existe");
+        } else{
+            String sql = "INSERT INTO CLIENT (NAME, SURNAME, EMAIL, PURCHASES, CREATE_DATE, UPDATE_DATE) VALUES (?, ?, ?, ?, ?, ?)";
+        PreparedStatement stm = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+        stm.setString(1, tocreate.getName());
+        stm.setString(2, tocreate.getSurname());
+        stm.setString(3, tocreate.getEmail());
+        stm.setInt(4, tocreate.getPurchase());
+        stm.setTimestamp(5, Timestamp.valueOf(tocreate.getCreateDate()));
+        stm.setTimestamp(6, Timestamp.valueOf(LocalDateTime.now()));
+        stm.executeUpdate();
 
-            ResultSet rs = stm.getGeneratedKeys();
-            if (rs.next()) {
-                return rs.getInt(1);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
+        ResultSet rs = stm.getGeneratedKeys();
+        if (rs.next()) {
+            return rs.getInt(1);
         }
-        return 0;
+        return -1;
+    }
     }
 
     @Override
     public boolean update(Client toUpdate) {
-        String sql = "UPDATE CLIENT SET NAME=?,SURNAME=? WHERE ID =?";
+        String sql = "UPDATE CLIENT SET NAME=?,SURNAME=?,  UPDATE_DATE=? WHERE ID =?";
         try(PreparedStatement stm = connection.prepareStatement(sql)){
             stm.setString(1,toUpdate.getName());
             stm.setString(2, toUpdate.getSurname());
-            stm.setInt(3,toUpdate.getId());
+            stm.setTimestamp(3,Timestamp.valueOf(LocalDateTime.now()));
+            stm.setInt(4,toUpdate.getId());
                 return stm.executeUpdate() > 0;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -52,15 +59,32 @@ public class ClientDaoJdbc implements IClientDao {
     }
 
     @Override
-    public boolean delete(int idtodelete) {
+    public boolean delete(int idtodelete) throws CannotDeleteException,SQLException {
+        List<Sales> ventas = new ArrayList<>();
+        IProductDao iProductDao = new ProductDaoJdbc(connection);
+        String verificarCliente = "SELECT * FROM SALES WHERE CLIENT_ID=?";
         String sql = "DELETE FROM CLIENT WHERE ID =?";
-                try(PreparedStatement stm = connection.prepareStatement(sql)){
-                    stm.setInt(1,idtodelete);
-                    return stm.executeUpdate() > 0;
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-        return false;
+               PreparedStatement stm1 = connection.prepareStatement(verificarCliente);
+                   stm1.setInt(1,idtodelete);
+                   ResultSet rs = stm1.executeQuery();
+                   while(rs.next()){
+
+                       int id_venta = rs.getInt("SALES_ID");
+                       Product producto = iProductDao.getById(rs.getInt("PRODUCT_ID"));
+                       Client cliente = getById(rs.getInt("CLIENT_ID"));
+                       int quantity = rs.getInt("QUANTITY");
+                       LocalDateTime fechaventa = rs.getTimestamp("DATE_OF_SALE").toLocalDateTime();
+
+                       Sales venta = new Sales(id_venta,cliente,producto,quantity,fechaventa);
+                       ventas.add(venta);
+                   }
+                    if(ventas!=null){
+                        throw new CannotDeleteException("No se puede borrar el cliente ya que esta registrado en las ventas");
+                    }else{
+                   PreparedStatement stm = connection.prepareStatement(sql);
+                       stm.setInt(1, idtodelete);
+                       return stm.executeUpdate() > 0;
+                   }
     }
 
     @Override
@@ -82,7 +106,7 @@ public class ClientDaoJdbc implements IClientDao {
 
     @Override
     public Client getById(int clientid) {
-        String sql = "SELECT FROM CLIENT WHERE ID = ?";
+        String sql = "SELECT * FROM CLIENT WHERE ID = ?";
             try(PreparedStatement stm = connection.prepareStatement(sql)){
                 stm.setInt(1,clientid);
                 ResultSet rs = stm.executeQuery();

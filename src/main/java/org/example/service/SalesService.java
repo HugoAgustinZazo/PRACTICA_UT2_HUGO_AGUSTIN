@@ -6,6 +6,8 @@ import org.example.dao.IProductDao;
 import org.example.dao.ISalesDao;
 import org.example.dao.impl.ProductDaoJdbc;
 import org.example.dao.impl.SalesDaoJdbc;
+import org.example.exceptions.GeneralErrorException;
+import org.example.exceptions.InventoryException;
 import org.example.model.Client;
 import org.example.model.Product;
 import org.example.model.Sales;
@@ -28,7 +30,7 @@ public class SalesService {
 
         ConnectionManager instance=ConnectionManager.getInstance();
         try (Connection conn= instance.getConnection()){
-
+            if(product.getStock() < quantity) throw new InventoryException("No hay suficiente producto para esta venta");
             iSalesDao = new SalesDaoJdbc(conn);
             Sales sale = new Sales();
             sale.setCustomer(client);
@@ -38,39 +40,32 @@ public class SalesService {
             iSalesDao.insert(sale);
             logger.info("Product succesfully created. ProductID: ");
 
-        } catch (SQLException e) {
-            logger.error("There has been an error while operating with the DB",e);
-            throw new RuntimeException(e);
-        }catch (Exception e){
-            logger.error("General ERROR");
+        } catch (SQLException | InventoryException e) {
+            logger.error(e.getMessage());
         }
 
     }
-    public Product getMostPurchasedProduct() throws SQLException {
+    public Product getMostPurchasedProduct() throws GeneralErrorException {
 
         ConnectionManager instance=ConnectionManager.getInstance();
         try (Connection conn= instance.getConnection()){
             iSalesDao = new SalesDaoJdbc(conn);
-        } catch (SQLException e) {
-            logger.error("There has been an error while operating with the DB",e);
-            throw new RuntimeException(e);
-        }catch (Exception e){
-            logger.error("General ERROR");
+            return iSalesDao.getMostPurchasedProduct();
+        }catch (SQLException | GeneralErrorException e) {
+            logger.error(e.getMessage());
         }
-        return iSalesDao.getMostPurchasedProduct();
+        return null;
     }
 
-    public Client getTopPurchasingClient() {
+    public Client getTopPurchasingClient() throws GeneralErrorException {
         ConnectionManager instance=ConnectionManager.getInstance();
         try (Connection conn= instance.getConnection()){
             iSalesDao = new SalesDaoJdbc(conn);
-        } catch (SQLException e) {
-            logger.error("There has been an error while operating with the DB",e);
-            throw new RuntimeException(e);
-        }catch (Exception e){
-            logger.error("General ERROR");
+            return iSalesDao.getTopPurchasingClient();
+        } catch (SQLException | GeneralErrorException e) {
+            logger.error(e.getMessage());
         }
-        return iSalesDao.getTopPurchasingClient();
+        return null;
     }
 
 }

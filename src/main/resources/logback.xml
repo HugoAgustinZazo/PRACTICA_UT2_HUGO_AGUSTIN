@@ -3,7 +3,7 @@
     <!-- Definir el appender que escribe los logs en un archivo -->
     <appender name="FILE" class="ch.qos.logback.core.FileAppender">
         <!-- Archivo donde se escribirán los logs -->
-        <file>logs/app.log</file>
+        <file>log/sales-app.log</file>
 
         <!-- Encoder para definir el formato de los logs -->
         <encoder>
