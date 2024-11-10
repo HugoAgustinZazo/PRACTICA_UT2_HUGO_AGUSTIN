@@ -43,14 +43,12 @@ public class SalesDaoJdbc implements ISalesDao {
                     throw new InventoryException("No se puede quedar el stock en negativo" + toCreate.getProduct().getId());
                 }
             }
-
             String sqlClient = "UPDATE CLIENT SET PURCHASES = PURCHASES + 1 WHERE ID = ?";
             try (PreparedStatement stmtClient = connection.prepareStatement(sqlClient)) {
                 stmtClient.setInt(1, toCreate.getCustomer().getId());
                 int rowsAffected = stmtClient.executeUpdate();
                 if (rowsAffected == 0) {
                     connection.rollback();
-                    throw new InventoryException("Failed to increase purchase count for client " + toCreate.getCustomer().getId());
                 }
             }
             connection.commit();

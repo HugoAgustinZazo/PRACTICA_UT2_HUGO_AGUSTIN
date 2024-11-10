@@ -57,3 +57,17 @@
 2024-11-10 22:11:41 [main] INFO  org.example.service.ProductService - Product succesfully getting. ProductID: 12
 2024-11-10 22:11:41 [main] INFO  org.example.service.ProductService - Deleting Product: Product{id=12, name='gulacsi', description='muy bueno', stock=18, price=14.88, available=false, createDate=2024-11-10T21:48:26, updateDate=2024-11-10T21:48:26}
 2024-11-10 22:11:41 [main] ERROR org.example.service.ProductService - No se puede borrar el producto ya que esta registrado en las ventas
+2024-11-10 23:26:43 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2024-11-10 23:26:43 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@d86a6f
+2024-11-10 23:26:43 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2024-11-10 23:27:48 [main] INFO  org.example.service.ProductService - Product: 13
+2024-11-10 23:27:48 [main] INFO  org.example.service.ProductService - Product succesfully getting. ProductID: 13
+2024-11-10 23:27:48 [main] INFO  org.example.service.SalesService - Inserting new Sale Id product: 13 ,CLientID: 4 ,Quantity: 2
+2024-11-10 23:27:48 [main] ERROR org.example.service.SalesService - Can't call commit when autocommit=true
+2024-11-10 23:34:39 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2024-11-10 23:34:39 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@2892d68
+2024-11-10 23:34:39 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2024-11-10 23:34:39 [main] INFO  org.example.service.ProductService - Product: 13
+2024-11-10 23:34:39 [main] INFO  org.example.service.ProductService - Product succesfully getting. ProductID: 13
+2024-11-10 23:34:39 [main] INFO  org.example.service.SalesService - Inserting new Sale Id product: 13 ,CLientID: 5 ,Quantity: 1
+2024-11-10 23:34:39 [main] ERROR org.example.service.SalesService - Can't call commit when autocommit=true

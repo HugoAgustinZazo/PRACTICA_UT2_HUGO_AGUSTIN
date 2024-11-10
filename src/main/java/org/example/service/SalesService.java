@@ -18,6 +18,8 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 public class SalesService {
     private static final Logger logger = LoggerFactory.getLogger(SalesService.class);
@@ -66,6 +68,17 @@ public class SalesService {
             logger.error(e.getMessage());
         }
         return null;
+    }
+    public List<Sales> getAllSales(){
+        List<Sales> ventas = new ArrayList<>();
+        ConnectionManager instance=ConnectionManager.getInstance();
+        try (Connection conn= instance.getConnection()){
+            iSalesDao = new SalesDaoJdbc(conn);
+            ventas = iSalesDao.getAllSales();
+        } catch (SQLException | GeneralErrorException e) {
+            logger.error(e.getMessage());
+        }
+        return ventas;
     }
 
 }
